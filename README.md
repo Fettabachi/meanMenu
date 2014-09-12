@@ -1,5 +1,6 @@
 MeanMenu v2.0.6
 ===========
+I want to add the option of using html for the meanExpand and meanContract characters.
 
 Looking for a WordPress version?
 ---
