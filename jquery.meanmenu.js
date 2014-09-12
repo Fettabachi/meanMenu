@@ -24,20 +24,22 @@
 * Find more information at http://www.meanthemes.com/plugins/meanmenu/
 *
 */
+jQuery(document).ready(function($) {
+	
+	 // which menu do you want to mean-alize?
+  $('#woocommerce_product_categories-2').meanmenu();
+
+  // begin with an open the menu
+	$( ".meanmenu-reveal" ).trigger( "click" );
+
+});
+
 (function ($) {
 	"use strict";
 		$.fn.meanmenu = function (options) {
 				var defaults = {
 						meanMenuTarget: jQuery(this), // Target the current HTML markup you wish to replace
-						meanMenuContainer: 'body', // Choose where meanmenu will be placed within the HTML
-						meanMenuClose: "X", // single character you want to represent the close menu button
-						meanMenuCloseSize: "18px", // set font size of close button
-						meanMenuOpen: "<span /><span /><span />", // text/markup you want when menu is closed
-						meanRevealPosition: "right", // left right or center positions
-						meanRevealPositionDistance: "0", // Tweak the position of the menu
-						meanRevealColour: "", // override CSS colours for the reveal background
-						meanScreenWidth: "480", // set the screen width you want meanmenu to kick in at
-						meanNavPush: "", // set a height here in px, em or % if you want to budge your layout now the navigation is missing.
+						meanMenuContainer: '.menu-container', // Choose where meanmenu will be placed within the HTML
 						meanShowChildren: true, // true to show children in the menu, false to hide them
 						meanExpandableChildren: true, // true to allow expand/collapse children
 						meanExpand: "+", // single character you want to represent the expand for ULs
@@ -48,20 +50,10 @@
 				};
 				options = $.extend(defaults, options);
 
-				// get browser width
-				var currentWidth = window.innerWidth || document.documentElement.clientWidth;
-
 				return this.each(function () {
 						var meanMenu = options.meanMenuTarget;
 						var meanContainer = options.meanMenuContainer;
-						var meanMenuClose = options.meanMenuClose;
 						var meanMenuCloseSize = options.meanMenuCloseSize;
-						var meanMenuOpen = options.meanMenuOpen;
-						var meanRevealPosition = options.meanRevealPosition;
-						var meanRevealPositionDistance = options.meanRevealPositionDistance;
-						var meanRevealColour = options.meanRevealColour;
-						var meanScreenWidth = options.meanScreenWidth;
-						var meanNavPush = options.meanNavPush;
 						var meanRevealClass = ".meanmenu-reveal";
 						var meanShowChildren = options.meanShowChildren;
 						var meanExpandableChildren = options.meanExpandableChildren;
@@ -71,78 +63,24 @@
 						var onePage = options.onePage;
 						var removeElements = options.removeElements;
 
-						//detect known mobile/tablet usage
-						var isMobile = false;
-						if ( (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) || (navigator.userAgent.match(/iPad/i)) || (navigator.userAgent.match(/Android/i)) || (navigator.userAgent.match(/Blackberry/i)) || (navigator.userAgent.match(/Windows Phone/i)) ) {
-								isMobile = true;
-						}
-
 						if ( (navigator.userAgent.match(/MSIE 8/i)) || (navigator.userAgent.match(/MSIE 7/i)) ) {
 							// add scrollbar for IE7 & 8 to stop breaking resize function on small content sites
 								jQuery('html').css("overflow-y" , "scroll");
 						}
-
-						var meanRevealPos = "";
-						var meanCentered = function() {
-							if (meanRevealPosition === "center") {
-								var newWidth = window.innerWidth || document.documentElement.clientWidth;
-								var meanCenter = ( (newWidth/2)-22 )+"px";
-								meanRevealPos = "left:" + meanCenter + ";right:auto;";
-
-								if (!isMobile) {
-									jQuery('.meanmenu-reveal').css("left",meanCenter);
-								} else {
-									jQuery('.meanmenu-reveal').animate({
-											left: meanCenter
-									});
-								}
-							}
-						};
-
 						var menuOn = false;
 						var meanMenuExist = false;
-
-
-						if (meanRevealPosition === "right") {
-								meanRevealPos = "right:" + meanRevealPositionDistance + ";left:auto;";
-						}
-						if (meanRevealPosition === "left") {
-								meanRevealPos = "left:" + meanRevealPositionDistance + ";right:auto;";
-						}
-						// run center function
-						meanCentered();
 
 						// set all styles for mean-reveal
 						var $navreveal = "";
 
-						var meanInner = function() {
-								// get last class name
-								if (jQuery($navreveal).is(".meanmenu-reveal.meanclose")) {
-										$navreveal.html(meanMenuClose);
-								} else {
-										$navreveal.html(meanMenuOpen);
-								}
-						};
-
-						// re-instate original nav (and call this on window.width functions)
-						var meanOriginal = function() {
-							jQuery('.mean-bar,.mean-push').remove();
-							jQuery(meanContainer).removeClass("mean-container");
-							jQuery(meanMenu).show();
-							menuOn = false;
-							meanMenuExist = false;
-							jQuery(removeElements).removeClass('mean-remove');
-						};
-
 						// navigation reveal
 						var showMeanMenu = function() {
-								var meanStyles = "background:"+meanRevealColour+";color:"+meanRevealColour+";"+meanRevealPos;
-								if (currentWidth <= meanScreenWidth) {
+								if (1 === 1) {
 								jQuery(removeElements).addClass('mean-remove');
 									meanMenuExist = true;
 									// add class to body so we don't need to worry about media queries here, all CSS is wrapped in '.mean-container'
 									jQuery(meanContainer).addClass("mean-container");
-									jQuery('.mean-container').prepend('<div class="mean-bar"><a href="#nav" class="meanmenu-reveal" style="'+meanStyles+'">Show Navigation</a><nav class="mean-nav"></nav></div>');
+									jQuery('.mean-container').prepend('<div class="mean-bar"><a href="#nav" class="meanmenu-reveal" style="">Show Navigation</a><nav class="mean-nav"></nav></div>');
 
 									//push meanMenu navigation into .mean-nav
 									var meanMenuContents = jQuery(meanMenu).html();
@@ -156,16 +94,12 @@
 										});
 									}
 
-									// push in a holder div (this can be used if removal of nav is causing layout issues)
-									jQuery(meanMenu).before('<div class="mean-push" />');
-									jQuery('.mean-push').css("margin-top",meanNavPush);
-
 									// hide current navigation and reveal mean nav link
 									jQuery(meanMenu).hide();
 									jQuery(".meanmenu-reveal").show();
 
 									// turn 'X' on or off
-									jQuery(meanRevealClass).html(meanMenuOpen);
+									jQuery(meanRevealClass).html();
 									$navreveal = jQuery(meanRevealClass);
 
 									//hide mean-nav ul
@@ -177,7 +111,7 @@
 											if(meanExpandableChildren){
 												jQuery('.mean-nav ul ul').each(function() {
 														if(jQuery(this).children().length){
-																jQuery(this,'li:first').parent().append('<a class="mean-expand" href="#" style="font-size: '+ meanMenuCloseSize +'">'+ meanExpand +'</a>');
+																jQuery(this,'li:first').parent().append('<a class="mean-expand" href="#" >'+ meanExpand +'</a>');
 														}
 												});
 												jQuery('.mean-expand').on("click",function(e){
@@ -204,9 +138,6 @@
 									jQuery($navreveal).click(function(e){
 										e.preventDefault();
 								if( menuOn === false ) {
-												$navreveal.css("text-align", "center");
-												$navreveal.css("text-indent", "0");
-												$navreveal.css("font-size", meanMenuCloseSize);
 												jQuery('.mean-nav ul:first').slideDown();
 												menuOn = true;
 										} else {
@@ -230,46 +161,6 @@
 								meanOriginal();
 							}
 						};
-
-						if (!isMobile) {
-								// reset menu on resize above meanScreenWidth
-								jQuery(window).resize(function () {
-										currentWidth = window.innerWidth || document.documentElement.clientWidth;
-										if (currentWidth > meanScreenWidth) {
-												meanOriginal();
-										} else {
-											meanOriginal();
-										}
-										if (currentWidth <= meanScreenWidth) {
-												showMeanMenu();
-												meanCentered();
-										} else {
-											meanOriginal();
-										}
-								});
-						}
-
-					jQuery(window).resize(function () {
-								// get browser width
-								currentWidth = window.innerWidth || document.documentElement.clientWidth;
-
-								if (!isMobile) {
-										meanOriginal();
-										if (currentWidth <= meanScreenWidth) {
-												showMeanMenu();
-												meanCentered();
-										}
-								} else {
-										meanCentered();
-										if (currentWidth <= meanScreenWidth) {
-												if (meanMenuExist === false) {
-														showMeanMenu();
-												}
-										} else {
-												meanOriginal();
-										}
-								}
-						});
 
 					// run main menuMenu function on load
 					showMeanMenu();
