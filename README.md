@@ -1,5 +1,7 @@
 MeanMenu v2.0.6
 ===========
+Roadmap
+I want to avoid having to trigger the click event to begin with an open menu.
 I want to add the option of using html for the meanExpand and meanContract characters.
 
 Looking for a WordPress version?
