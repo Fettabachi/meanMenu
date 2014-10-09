@@ -4,7 +4,7 @@ Roadmap
 I want to avoid having to trigger the click event to begin with an open menu.
 I want to add the option of using html for the meanExpand and meanContract characters.
 
-Testing my version control.
+Testing my version control and hot fix.
 
 Looking for a WordPress version?
 ---
